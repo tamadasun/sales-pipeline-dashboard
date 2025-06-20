@@ -1,0 +1,13 @@
+{
+    "creation_date": "2025-01-29",
+    "date_period": "2022-01 to 2024-10",
+    "n_territories": 116,
+    "n_segments": 3,
+    "transformations_applied": [
+        "Calculated win rates by account and territory",
+        "Computed market share metrics",
+        "Derived monthly residuals",
+        "Standardized territory codes",
+        "Added segment categorization"
+    ]
+}
