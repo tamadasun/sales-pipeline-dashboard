@@ -1,0 +1,27 @@
+
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\Copy of WHD Market Share Data_2024.xlsx" 6214795
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\Copy of WHD Market Share Data_2025.xlsx" 6496733
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\enhanced_dataset.xlsx" 3366351
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\feature_engineered_dataset.xlsx" 3793660
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\residuals.xlsx" 1648675
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\Sales Performance and Pipeline Analysis for Water Heater Division (1).csv" 436274781
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\Sales Performance and Pipeline Analysis for Water Heater Division (2).csv" 432427836
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\train_dataset.xlsx" 12003272
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\data\.ipynb_checkpoints\Sales Performance and Pipeline Analysis for Water Heater Division (1)-checkpoint.csv" 436274781
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\external data\Residential Baseline 2024(Gross Sales Data).csv" 17759066
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\notebook\01_Data_Preparation_EDA.ipynb" 1148225
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\notebook\03_Data_Modeling_Hyperparameter_Tuning.ipynb" 1792681
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\notebook\04_Data_Evaluation_Deployment.ipynb" 1348254
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\full_pipeline_results.xlsx" 1111066
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\residual_category_importance.html" 3690865
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\residual_feature_importance.html" 3691757
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\sales_category_importance.html" 3690863
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\sales_feature_importance.html" 3691794
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\win_rate_category_importance.html" 3690878
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\win_rate_feature_importance.html" 3691947
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\results\.ipynb_checkpoints\residual_category_importance-checkpoint.html" 3690863
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\trained_pickled_model\optimized_residual_model.pkl" 5420115
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\trained_pickled_model\optimized_sales_model.pkl" 8191473
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\trained_pickled_model\residual_model.pkl" 5886924
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\trained_pickled_model\sales_model.pkl" 3269249
+"C:\Users\Anthony.Amadasun\SegmentationTreatmentAnalysis\Sales_Performance_and_Pipeline_Predictive_Analysis\trained_pickled_model\win_rate_model.pkl" 8261777
