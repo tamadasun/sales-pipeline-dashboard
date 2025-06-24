@@ -40,9 +40,15 @@ st.markdown("Interactive time series analysis with machine learning forecasting 
 def load_time_series_data():
     """Load pipeline data optimized for time series analysis"""
     data_sources = [
-        "../results/full_pipeline_results.xlsx",
-        "../results/test_pipeline_results.xlsx"
+        "results/full_pipeline_results.xlsx",
+        "results/test_pipeline_results.xlsx"
     ]
+
+    # data_sources = [
+    #     "../results/full_pipeline_results.xlsx",
+    #     "../results/test_pipeline_results.xlsx"
+    # ]
+    
 
     for source in data_sources:
         try:

@@ -61,9 +61,15 @@ def load_data():
     Load pipeline results data with fallback options for missing files
     """
     data_sources = [
-        "../results/full_pipeline_results.xlsx",
-        "../results/test_pipeline_results.xlsx"
+        "results/full_pipeline_results.xlsx",
+        "results/test_pipeline_results.xlsx"
     ]
+
+    # data_sources = [
+    #     "../results/full_pipeline_results.xlsx",
+    #     "../results/test_pipeline_results.xlsx"
+    # ]
+    
     
     for source in data_sources:
         try:
