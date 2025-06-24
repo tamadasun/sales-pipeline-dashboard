@@ -8,6 +8,21 @@ from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
 
+def get_data_path(relative_path):
+    """
+    Resolves the correct file path for both local and Streamlit Cloud environments.
+    Tries the given path first, then checks one level up.
+    """
+    if os.path.exists(relative_path):
+        return relative_path
+
+    parent_path = os.path.join("..", relative_path)
+    if os.path.exists(parent_path):
+        return parent_path
+
+    return relative_path  # Let it fail naturally if not found
+
+
 # Set page config
 st.set_page_config(
     page_title="Water Heater Sales Pipeline Analysis",
@@ -52,7 +67,9 @@ def load_data():
     
     for source in data_sources:
         try:
-            df = pd.read_excel(source)
+            path = get_data_path(source)
+            df = pd.read_excel(path)
+            #df = pd.read_excel(source)
             df['Date'] = pd.to_datetime(df['Date'])
             df['Year'] = df['Date'].dt.year
             df['Month'] = df['Date'].dt.month

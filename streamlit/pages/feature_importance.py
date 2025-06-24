@@ -11,6 +11,22 @@ from sklearn.base import BaseEstimator, RegressorMixin
 import warnings
 warnings.filterwarnings('ignore')
 
+
+def get_data_path(relative_path):
+    """
+    Resolves the correct file path for both local and Streamlit Cloud environments.
+    Tries the given path first, then checks one level up.
+    """
+    if os.path.exists(relative_path):
+        return relative_path
+
+    parent_path = os.path.join("..", relative_path)
+    if os.path.exists(parent_path):
+        return parent_path
+
+    return relative_path  # Let it fail naturally if not found
+
+
 # Set page config
 st.set_page_config(
     page_title="Feature Importance Analysis",
@@ -44,11 +60,19 @@ def load_data_dictionaries():
     """Load data dictionaries for feature insights"""
     if 'dictionaries' not in st.session_state:
         dictionaries = {}
-        
+
         dict_files = {
-            'feature_engineered': '../data/feature_engineered_data_dictionary.xlsx',
-            'main': '../data/data_dictionary.xlsx'
+            'feature_engineered': get_data_path("data/feature_engineered_data_dictionary.xlsx"),
+            'main': get_data_path("data/data_dictionary.xlsx")
         }
+
+        
+        #dict_files = {
+            #'feature_engineered': '../data/feature_engineered_data_dictionary.xlsx',
+            #'main': '../data/data_dictionary.xlsx'
+        #}
+
+        
         
         for dict_name, file_path in dict_files.items():
             try:
@@ -58,7 +82,8 @@ def load_data_dictionaries():
             except:
                 try:
                     # Try markdown version
-                    md_path = file_path.replace('.xlsx', '.md')
+                    md_path = get_data_path(file_path.replace('.xlsx', '.md'))
+                    #md_path = file_path.replace('.xlsx', '.md')
                     with open(md_path, 'r', encoding='utf-8') as f:
                         dictionaries[dict_name] = f.read()
                     st.sidebar.success(f"✅ {dict_name} dictionary loaded (MD)")
@@ -253,20 +278,35 @@ def load_model_data():
         # Clear any existing cache first
         if hasattr(st, 'cache_data'):
             st.cache_data.clear()
-        
+
         model_paths = {
             'Sales': [
-                '../trained_pickled_model/optimized_sales_model.pkl',
-                '../trained_pickled_model/sales_model.pkl'
+                get_data_path("trained_pickled_model/optimized_sales_model.pkl"),
+                get_data_path("trained_pickled_model/sales_model.pkl")
             ],
             'Win Rate': [
-                '../trained_pickled_model/win_rate_model.pkl'
+                get_data_path("trained_pickled_model/win_rate_model.pkl")
             ],
             'Residual': [
-                '../trained_pickled_model/residual_model.pkl',
-                '../trained_pickled_model/optimized_residual_model.pkl'
+                get_data_path("trained_pickled_model/residual_model.pkl"),
+                get_data_path("trained_pickled_model/optimized_residual_model.pkl")
             ]
         }
+
+        
+        # model_paths = {
+        #     'Sales': [
+        #         '../trained_pickled_model/optimized_sales_model.pkl',
+        #         '../trained_pickled_model/sales_model.pkl'
+        #     ],
+        #     'Win Rate': [
+        #         '../trained_pickled_model/win_rate_model.pkl'
+        #     ],
+        #     'Residual': [
+        #         '../trained_pickled_model/residual_model.pkl',
+        #         '../trained_pickled_model/optimized_residual_model.pkl'
+        #     ]
+        # }
         
         for model_name, paths in model_paths.items():
             st.write(f"\n### Loading {model_name} Model")

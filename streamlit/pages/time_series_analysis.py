@@ -4,9 +4,25 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
+import os
 import warnings
 warnings.filterwarnings('ignore')
 
+
+def get_data_path(relative_path):
+    """
+    Resolves the correct file path for both local and Streamlit Cloud environments.
+    Tries the given path first, then checks one level up.
+    """
+    if os.path.exists(relative_path):
+        return relative_path
+
+    parent_path = os.path.join("..", relative_path)
+    if os.path.exists(parent_path):
+        return parent_path
+
+    return relative_path  # Let it fail naturally if not found
+    
 # Set page config
 st.set_page_config(
     page_title="Time Series Analysis",
@@ -27,10 +43,12 @@ def load_time_series_data():
         "../results/full_pipeline_results.xlsx",
         "../results/test_pipeline_results.xlsx"
     ]
-    
+
     for source in data_sources:
         try:
-            df = pd.read_excel(source)
+            path = get_data_path(source)
+            df = pd.read_excel(path)
+            #df = pd.read_excel(source)
             df['Date'] = pd.to_datetime(df['Date'])
             df['Year'] = df['Date'].dt.year
             df['Month'] = df['Date'].dt.month
