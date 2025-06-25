@@ -11,7 +11,6 @@ from sklearn.base import BaseEstimator, RegressorMixin
 import warnings
 warnings.filterwarnings('ignore')
 
-
 def get_data_path(relative_path):
     """
     Resolves the correct file path for both local and Streamlit Cloud environments.
@@ -279,6 +278,31 @@ def load_model_data():
         if hasattr(st, 'cache_data'):
             st.cache_data.clear()
 
+        #debug: show current working directory and structure
+        st.write('### Debug information')
+        st.write(f"**Current working directory**: `{os.getcwd()}`")
+        #list files in current directory
+        st.write("**Files in current directory**:")
+        for item in os.listdir('.'):
+            st.write(f"- {item}")
+        #Check if trained_pickled_model exist
+        if os.path.exists('trained_pickled_model'):
+            st.write("\n**Files in trained_pickled_model/**:")
+            for item in os.listdir('trained_pickled_model'):
+                size = os.path.getsize(f'trained_pickled_model/{item}')
+                st.write(f"- {item} ({size:,} bytes)")
+                if size < 1000:
+                    st.warning(f" {item} is only {size} bytes - might be a Git LFS pointer!")
+        else:
+            st.error("Trained_pickled_model directory not found")
+
+            #Try parent directory
+            parent_path = os.path.join('..', 'trained_pickled_model')
+            if os.path.exists(parent_path):
+                st.write(f"\n**Found in parent directory: {parent_path}**")
+                for item in os.listdir(parent_path):
+                    st.write(f"- {item}")
+
         model_paths = {
             'Sales': [
                 get_data_path("trained_pickled_model/optimized_sales_model.pkl"),
@@ -292,6 +316,18 @@ def load_model_data():
                 get_data_path("trained_pickled_model/optimized_residual_model.pkl")
             ]
         }
+
+        #Debug: shows what path are being checked
+        st.write("\n### Path Resolution")
+        for model_name, paths in model_paths.items():
+            st.write(f"\n**{model_name} Model Paths**:")
+            for path in paths:
+                exists = os.path.exists(path)
+                if exists:
+                    size = os.path.getsize(path)
+                    st.write(f"{path} - EXISTS ({size:,} bytes)")
+                else:
+                    st.write(f" {path} -NOT FOUND")
 
         
         # model_paths = {
@@ -317,7 +353,7 @@ def load_model_data():
                     st.write(f"📁 Found file: {path}")
                     model_data = load_individual_model(path, model_name)
                     
-                    if model_data:
+                    if model_data is not None:
                         models[model_name] = model_data
                         loaded = True
                         break
