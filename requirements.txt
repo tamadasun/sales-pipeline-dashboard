@@ -4,11 +4,11 @@ numpy
 plotly
 openpyxl
 xlsxwriter
-scikit-learn==1.2.2
+scikit-learn
 joblib
 dill
-xgboost==2.1.1
-lightgbm==4.6.0
+xgboost
+lightgbm
 
 
 
