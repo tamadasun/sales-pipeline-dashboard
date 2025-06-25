@@ -371,11 +371,17 @@ def extract_feature_importance(model_data, model_name):
     """Extract feature importance from models"""
     try:
         st.write(f"\n🔍 Extracting features from {model_name} model...")
-        
-        model = model_data.get('best_model')
-        features = model_data.get('features', [])
-        # Get proper model name from the model data
-        best_model_name = model_data.get('best_model_name', 'Unknown')
+
+        if isinstance(model_data, dict):
+            model = model_data.get('best_model')
+            features = model_data.get('features', [])
+            # Get proper model name from the model data
+            best_model_name = model_data.get('best_model_name', 'Unknown')
+        else:
+            #model_data IS the model itself
+            model = model_data
+            features = []
+            best_model_name = type(model).__name__
         
         # If still unknown, try to extract from results/metrics
         if best_model_name == 'Unknown':
