@@ -9,7 +9,9 @@ import sys
 from datetime import datetime
 from sklearn.base import BaseEstimator, RegressorMixin
 import warnings
-warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore', category=UserWarning)
+import sklearn
+
 
 def get_data_path(relative_path):
     """
@@ -213,7 +215,7 @@ The model identifies this as a key driver of {model_name.lower()} performance wh
 """
 
 def load_individual_model(model_path, model_name):
-    """Load individual model with enhanced error handling"""
+    """Load individual model with error handling"""
     
     # Inject SegmentSpecificModel into multiple locations
     current_module = sys.modules[__name__]
@@ -231,30 +233,74 @@ def load_individual_model(model_path, model_name):
         
         # Strategy 1: Direct joblib load
         model_data = joblib.load(model_path)
-        st.sidebar.success(f"✅ {model_name} loaded successfully")
-        return model_data
+        #check if its a dictionary or raw model
+        if isinstance(model_data, dict):
+            st.sidebar.success(f"✅ {model_name} loaded successfully (dict format)")
+            return model_data
+        else:
+            #its a raw model - wrap it in expected structure
+            st.sidebar.success(f"✅ {model_name} loaded successfully (raw model)")
+
+            #Try to get feature names if available
+            features = []
+            if hasattr(model_data, 'feature_names_in'):
+                features = list(model_data.feature_names_in_)
+            elif hasattr(model_data, 'feature_names_'):
+                features = list(model_data.feature_names_)
+
+            #Determine model type
+            model_type = type(model_data).__name__
+            if 'XGB' in model_type:
+                best_model_name = 'XGBoost'
+            elif 'LGBM' in model_type or 'LightGBM' in model_type:
+                best_model_name = 'LightGBM'
+            elif hasattr(model_data, 'commercial_model'):
+                #Its a Segment SpecificModel
+                best_model_name = 'Segment-Specific Ensemble'
+            else:
+                best_model_name = model_type
+
+            #wrap in expected structure
+            return {
+                'best_model': model_data,
+                'features': features,
+                'best_model_name': best_model_name,
+                'results': {}
+            }
+
+    except Exception as e:
+        st.error(f"❌ Strategy 1 failed to load {model_name}: {str(e)}")
         
-    except Exception as e1:
-        st.write(f"❌ Strategy 1 failed: {str(e1)}")
+    # except Exception as e1:
+    #     st.write(f"❌ Strategy 1 failed: {str(e1)}")
         
         try:
             # Strategy 2: Manual pickle with custom unpickler
             import pickle
             
-            class CustomUnpickler(pickle.Unpickler):
-                def find_class(self, module, name):
-                    if name == 'SegmentSpecificModel':
-                        return SegmentSpecificModel
-                    return super().find_class(module, name)
+            # class CustomUnpickler(pickle.Unpickler):
+            #     def find_class(self, module, name):
+            #         if name == 'SegmentSpecificModel':
+            #             return SegmentSpecificModel
+            #         return super().find_class(module, name)
             
             with open(model_path, 'rb') as f:
-                model_data = CustomUnpickler(f).load()
+                model_data = pickle.load(f)
+                #model_data = CustomUnpickler(f).load()
+            #wrap if needed
+            if not isinstance(model_data, dict):
+                model_data = {
+                    'best_model': model_data,
+                    'features': [],
+                    'best_model_name': type(model_data).__name__
+                }
                 
-            st.sidebar.success(f"✅ {model_name} loaded with custom unpickler")
+            st.sidebar.success(f"✅ {model_name} loaded with pickle")
             return model_data
             
         except Exception as e2:
-            st.write(f"❌ Strategy 2 failed: {str(e2)}")
+            st.error(f"❌ Strategy 2 failed: {str(e2)}")
+            #st.write(f"❌ Strategy 2 failed: {str(e2)}")
             
             try:
                 # Strategy 3: Load and extract only what we need
@@ -265,7 +311,7 @@ def load_individual_model(model_path, model_name):
                 
             except Exception as e3:
                 st.error(f"❌ All strategies failed for {model_name}")
-                st.error(f"Errors: {str(e1)[:100]}... | {str(e2)[:100]}... | {str(e3)[:100]}...")
+                st.error(f"Errors: {str(e)[:100]}... | {str(e2)[:100]}... | {str(e3)[:100]}...")
                 return None
 
 def load_model_data():
@@ -382,6 +428,18 @@ def extract_feature_importance(model_data, model_name):
             model = model_data
             features = []
             best_model_name = type(model).__name__
+
+        if len(features) == 0 and model is not None:
+            if hasattr(model, 'feature_names_in_'):
+                features = list(model.feature_names_in_)
+            elif hasattr(model, 'feature_names_'):
+                features = list(model.feature_names_)
+            elif hasattr(model, 'get_booster') and hasattr(model.get_booster(), 'feature_names'):
+                features = model.get_booster().feature_names
+
+        st.write(f"Model type: {type(model)}")
+        st.write(f"Model name: {best_model_name}")
+        st.write(f"Features available: {len(features)}")
         
         # If still unknown, try to extract from results/metrics
         if best_model_name == 'Unknown':
