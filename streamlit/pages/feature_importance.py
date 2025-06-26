@@ -9,8 +9,8 @@ import sys
 from datetime import datetime
 from sklearn.base import BaseEstimator, RegressorMixin
 import warnings
-warnings.filterwarnings('ignore', category=UserWarning)
-import sklearn
+warnings.filterwarnings('ignore')
+
 
 
 def get_data_path(relative_path):
